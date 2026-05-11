@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 260px; padding: 12px; font-family: -apple-system, "Microsoft JhengHei", sans-serif; font-size: 13px; }
+    h3 { margin: 0 0 8px; color: #ee4d2d; }
+    .row { padding: 4px 0; display: flex; justify-content: space-between; }
+    .row span:first-child { color: #888; }
+    .footer { margin-top: 12px; padding-top: 8px; border-top: 1px solid #eee; color: #999; font-size: 11px; }
+    .ok { color: #52c41a; }
+    .fail { color: #ff4d4f; }
+  </style>
+</head>
+<body>
+  <h3>🎯 Shopee 选品助手</h3>
+  <div class="row"><span>状态</span><span id="status">检查中...</span></div>
+  <div class="row"><span>已采集商品</span><span id="count">0</span></div>
+  <div class="row"><span>后端连接</span><span id="backend">检查中...</span></div>
+  <div class="footer">在 shopee.tw / sg / com.my 浏览即可自动工作</div>
+  <script src="popup.js"></script>
+</body>
+</html>

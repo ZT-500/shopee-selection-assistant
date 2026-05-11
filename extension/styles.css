@@ -1,0 +1,938 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+#shopee-assistant-panel {
+  --paper: #fbf5ec;
+  --paper-2: #f6efe2;
+  --surface: #ffffff;
+  --ink: #2a1d12;
+  --ink-soft: #5c4a3a;
+  --ink-mute: #9c8b7a;
+  --rule: #e8ddc9;
+  --rule-strong: #d8c9ad;
+  --shopee: #ee4d2d;
+  --shopee-soft: #f97559;
+  --shopee-deep: #c83d20;
+  --terracotta: #b54a26;
+  --olive: #786c45;
+  --green: #5a7a3a;
+  --gold-accent: #c89829;
+
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 440px;
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse at top right, rgba(238, 77, 45, 0.04) 0%, transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42  0 0 0 0 0.29  0 0 0 0 0.18  0 0 0 0.018 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  border-left: 1px solid var(--rule-strong);
+  box-shadow: -8px 0 40px rgba(120, 80, 40, 0.06);
+  font-family: 'Newsreader', 'Fraunces', 'Noto Serif SC', '思源宋体', Georgia, serif;
+  font-size: 14px;
+  color: var(--ink);
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  letter-spacing: 0.005em;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#shopee-assistant-panel.sa-collapsed {
+  transform: translateX(100%);
+}
+
+/* === Floating tab (handle) — 折叠后只露出一个小标签 === */
+#shopee-assistant-panel .sa-handle {
+  position: absolute;
+  left: -34px;
+  top: 50%;
+  width: 34px;
+  height: 120px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  box-shadow: -3px 4px 18px rgba(120, 80, 40, 0.16);
+  z-index: 10;
+  transform: translateY(-50%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#shopee-assistant-panel .sa-handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  background: var(--shopee);
+  border-radius: 1px;
+}
+
+#shopee-assistant-panel .sa-handle:hover {
+  transform: translateY(-50%) translateX(-3px);
+}
+
+#shopee-assistant-panel.sa-collapsed .sa-handle {
+  display: flex;
+}
+
+#shopee-assistant-panel .sa-handle-arrow {
+  font-size: 10px;
+  color: var(--shopee);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#shopee-assistant-panel .sa-handle-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: 'Fraunces', 'Noto Serif SC', '思源宋体', serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+#shopee-assistant-panel .sa-handle-text em {
+  font-style: italic;
+  color: var(--shopee);
+  font-weight: 500;
+}
+
+/* 折叠后彻底隐藏内部内容（不再透出） */
+#shopee-assistant-panel.sa-collapsed .sa-header,
+#shopee-assistant-panel.sa-collapsed .sa-body,
+#shopee-assistant-panel.sa-collapsed .sa-footer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* === Masthead === */
+#shopee-assistant-panel .sa-header {
+  padding: 18px 24px 18px;
+  background:
+    linear-gradient(180deg, rgba(238, 77, 45, 0.05) 0%, transparent 100%);
+  border-bottom: 2px solid var(--ink);
+  flex-shrink: 0;
+  position: relative;
+}
+
+#shopee-assistant-panel .sa-header::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 24px;
+  width: 56px;
+  height: 2px;
+  background: var(--shopee);
+}
+
+#shopee-assistant-panel .sa-mast-tiny {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: var(--shopee);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#shopee-assistant-panel .sa-mast-tiny .sa-toggle {
+  cursor: pointer;
+  color: var(--ink-mute);
+  font-size: 14px;
+  letter-spacing: 0;
+  user-select: none;
+  padding-left: 8px;
+  transition: color 0.2s;
+}
+
+#shopee-assistant-panel .sa-mast-tiny .sa-toggle:hover {
+  color: var(--shopee);
+}
+
+#shopee-assistant-panel .sa-mast-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 100;
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+#shopee-assistant-panel .sa-mast-title em {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--shopee);
+}
+
+/* === Body === */
+#shopee-assistant-panel .sa-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 24px 30px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+#shopee-assistant-panel .sa-body::-webkit-scrollbar { width: 7px; }
+#shopee-assistant-panel .sa-body::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 3px; }
+#shopee-assistant-panel .sa-body::-webkit-scrollbar-track { background: transparent; }
+
+#shopee-assistant-panel .sa-empty {
+  text-align: center;
+  padding: 70px 20px;
+  color: var(--ink-mute);
+  font-style: italic;
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* === Section labels === */
+#shopee-assistant-panel .sa-section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 26px 0 12px;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--ink-soft);
+}
+
+#shopee-assistant-panel .sa-section-label::before {
+  content: '';
+  width: 12px;
+  height: 1px;
+  background: var(--shopee);
+}
+
+#shopee-assistant-panel .sa-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+/* === Product title === */
+#shopee-assistant-panel .sa-product-title {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 4px 0 6px;
+}
+
+/* === Hero stats === */
+#shopee-assistant-panel .sa-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 14px;
+  padding: 6px 0;
+}
+
+#shopee-assistant-panel .sa-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#shopee-assistant-panel .sa-stat-label {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+#shopee-assistant-panel .sa-stat-value {
+  font-family: 'Fraunces', serif;
+  font-variation-settings: 'opsz' 144;
+  font-feature-settings: 'tnum' 1;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1;
+}
+
+#shopee-assistant-panel .sa-stat-value.sa-shopee-text {
+  color: var(--shopee);
+}
+
+#shopee-assistant-panel .sa-stat-suffix {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-weight: 500;
+  margin-left: 3px;
+  letter-spacing: 0.05em;
+}
+
+/* === File / key-value === */
+#shopee-assistant-panel .sa-file {
+  display: flex;
+  flex-direction: column;
+}
+
+#shopee-assistant-panel .sa-file-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--rule);
+  align-items: baseline;
+}
+
+#shopee-assistant-panel .sa-file-row:last-child {
+  border-bottom: none;
+}
+
+#shopee-assistant-panel .sa-file-key {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+#shopee-assistant-panel .sa-file-val {
+  font-family: 'Newsreader', serif;
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+  text-align: right;
+}
+
+#shopee-assistant-panel .sa-file-val.sa-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-feature-settings: 'tnum' 1;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* === Estimation card === */
+#shopee-assistant-panel .sa-mock {
+  position: relative;
+  background: var(--paper-2);
+  padding: 16px 18px 14px;
+  margin-top: 18px;
+  border-radius: 2px;
+}
+
+#shopee-assistant-panel .sa-mock .sa-section-label {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+#shopee-assistant-panel .sa-mock .sa-file-row {
+  border-color: var(--rule-strong);
+}
+
+#shopee-assistant-panel .sa-mock-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 3px 7px;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 8px;
+  line-height: 1;
+}
+
+/* === AI Section === */
+#shopee-assistant-panel .sa-ai {
+  margin-top: 38px;
+  padding-top: 30px;
+  position: relative;
+  border-top: 1px solid var(--rule-strong);
+}
+
+#shopee-assistant-panel .sa-ai::before {
+  content: '◆';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--shopee);
+  font-size: 10px;
+  padding: 0 12px;
+  letter-spacing: 0.3em;
+}
+
+#shopee-assistant-panel .sa-ai-mast {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+#shopee-assistant-panel .sa-ai-mast-eye {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+  margin-bottom: 6px;
+}
+
+#shopee-assistant-panel .sa-ai-mast-title {
+  font-family: 'Fraunces', 'Noto Serif SC', '思源宋体', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  color: var(--shopee);
+  line-height: 1.1;
+}
+
+#shopee-assistant-panel .sa-ai-trigger {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 14px 18px;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.25s;
+  margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+#shopee-assistant-panel .sa-ai-trigger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--shopee);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+#shopee-assistant-panel .sa-ai-trigger > span {
+  position: relative;
+  z-index: 1;
+}
+
+#shopee-assistant-panel .sa-ai-trigger:hover::before {
+  transform: scaleX(1);
+}
+
+#shopee-assistant-panel .sa-ai-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#shopee-assistant-panel .sa-loading {
+  text-align: center;
+  padding: 30px 0;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--shopee-deep);
+  font-size: 15px;
+}
+
+#shopee-assistant-panel .sa-loading::after {
+  content: '...';
+  display: inline-block;
+  width: 18px;
+  text-align: left;
+  animation: sa-dots 1.4s steps(4, end) infinite;
+}
+
+@keyframes sa-dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+#shopee-assistant-panel .sa-error {
+  font-family: 'Newsreader', serif;
+  font-size: 13px;
+  color: var(--shopee-deep);
+  padding: 14px;
+  border-left: 3px solid var(--shopee);
+  background: rgba(238, 77, 45, 0.06);
+  border-radius: 2px;
+}
+
+/* === AI blocks === */
+#shopee-assistant-panel .sa-ai-block {
+  margin-bottom: 22px;
+}
+
+#shopee-assistant-panel .sa-ai-block-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule);
+}
+
+#shopee-assistant-panel .sa-ai-block-head .sa-zh {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+#shopee-assistant-panel .sa-ai-block-head .sa-en {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+}
+
+#shopee-assistant-panel .sa-ai-block.sa-pros .sa-zh { color: var(--green); }
+#shopee-assistant-panel .sa-ai-block.sa-cons .sa-zh { color: var(--shopee); }
+#shopee-assistant-panel .sa-ai-block.sa-imp  .sa-zh { color: var(--gold-accent); }
+
+#shopee-assistant-panel .sa-ai-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#shopee-assistant-panel .sa-ai-list li {
+  padding: 6px 0 6px 20px;
+  font-family: 'Newsreader', serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+  position: relative;
+  font-weight: 400;
+}
+
+#shopee-assistant-panel .sa-ai-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  color: var(--ink-mute);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#shopee-assistant-panel .sa-ai-block.sa-pros li::before { color: var(--green); }
+#shopee-assistant-panel .sa-ai-block.sa-cons li::before { color: var(--shopee); }
+#shopee-assistant-panel .sa-ai-block.sa-imp  li::before { color: var(--gold-accent); }
+
+/* === Verdict pull-quote === */
+#shopee-assistant-panel .sa-verdict {
+  margin-top: 32px;
+  padding: 22px 22px 24px 26px;
+  background: var(--surface);
+  border-left: 4px solid var(--shopee);
+  position: relative;
+  box-shadow: 0 2px 8px rgba(120, 80, 40, 0.05);
+}
+
+#shopee-assistant-panel .sa-verdict::before {
+  content: '"';
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 90px;
+  color: var(--shopee);
+  position: absolute;
+  top: -20px;
+  right: 14px;
+  opacity: 0.18;
+  line-height: 1;
+}
+
+#shopee-assistant-panel .sa-verdict-eye {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+  margin-bottom: 8px;
+}
+
+#shopee-assistant-panel .sa-verdict-call {
+  font-family: 'Fraunces', 'Noto Serif SC', '思源宋体', serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.02em;
+  color: var(--shopee);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+#shopee-assistant-panel .sa-verdict-body {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+/* === Search === */
+#shopee-assistant-panel .sa-search-item {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  align-items: baseline;
+}
+
+#shopee-assistant-panel .sa-search-item:last-child { border-bottom: none; }
+
+#shopee-assistant-panel .sa-search-name {
+  font-family: 'Newsreader', serif;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+#shopee-assistant-panel .sa-search-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-feature-settings: 'tnum' 1;
+  font-size: 13px;
+  color: var(--shopee);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+#shopee-assistant-panel .sa-search-meta {
+  grid-column: 1 / -1;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.16em;
+}
+
+/* === Categories breadcrumb === */
+#shopee-assistant-panel .sa-breadcrumb {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+#shopee-assistant-panel .sa-breadcrumb .sa-bc-sep {
+  color: var(--ink-mute);
+  margin: 0 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+/* === Variations / 品种 === */
+#shopee-assistant-panel .sa-variations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+#shopee-assistant-panel .sa-variation-chip {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 12px;
+  color: var(--ink);
+  padding: 5px 10px;
+  background: var(--surface);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+
+/* === Description (collapsible) === */
+#shopee-assistant-panel .sa-desc {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  max-height: 110px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+#shopee-assistant-panel .sa-desc.sa-expanded {
+  max-height: 6000px;
+}
+
+#shopee-assistant-panel .sa-desc:not(.sa-expanded)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: linear-gradient(180deg, transparent 0%, var(--paper) 90%);
+  pointer-events: none;
+}
+
+#shopee-assistant-panel .sa-desc-toggle {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--shopee);
+  cursor: pointer;
+  border-bottom: 1px solid var(--shopee);
+  padding-bottom: 1px;
+}
+
+#shopee-assistant-panel .sa-desc-toggle:hover {
+  color: var(--shopee-deep);
+}
+
+/* === User reviews === */
+#shopee-assistant-panel .sa-review {
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--rule);
+}
+
+#shopee-assistant-panel .sa-review:last-child {
+  border-bottom: none;
+}
+
+#shopee-assistant-panel .sa-review-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+#shopee-assistant-panel .sa-review-stars {
+  font-family: 'Newsreader', serif;
+  color: var(--shopee);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+#shopee-assistant-panel .sa-review-stars .sa-star-empty {
+  color: var(--rule-strong);
+}
+
+#shopee-assistant-panel .sa-review-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+
+#shopee-assistant-panel .sa-review-body {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#shopee-assistant-panel .sa-review-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  background: var(--paper-2);
+  border-radius: 2px;
+}
+
+#shopee-assistant-panel .sa-review-summary-item {
+  text-align: center;
+}
+
+#shopee-assistant-panel .sa-review-summary-num {
+  font-family: 'Fraunces', serif;
+  font-feature-settings: 'tnum' 1;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--shopee);
+  line-height: 1;
+}
+
+#shopee-assistant-panel .sa-review-summary-lbl {
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.16em;
+  margin-top: 4px;
+}
+
+/* === Star distribution === */
+#shopee-assistant-panel .sa-review-dist {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+#shopee-assistant-panel .sa-dist-head {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr;
+  gap: 12px;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+}
+
+#shopee-assistant-panel .sa-dist-head > div:nth-child(2),
+#shopee-assistant-panel .sa-dist-head > div:nth-child(3) {
+  text-align: right;
+}
+
+#shopee-assistant-panel .sa-dist-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr;
+  gap: 12px;
+  padding: 6px 0;
+  align-items: center;
+  border-bottom: 1px dashed var(--rule);
+}
+
+#shopee-assistant-panel .sa-dist-row:last-child {
+  border-bottom: none;
+}
+
+#shopee-assistant-panel .sa-dist-star {
+  font-family: 'Newsreader', serif;
+  color: var(--shopee);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+#shopee-assistant-panel .sa-dist-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-feature-settings: 'tnum' 1;
+  font-size: 13px;
+  text-align: right;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+#shopee-assistant-panel .sa-dist-num.sa-zero {
+  color: var(--ink-mute);
+  opacity: 0.5;
+}
+
+#shopee-assistant-panel .sa-dist-num.sa-captured {
+  color: var(--shopee-deep);
+  font-weight: 600;
+}
+
+/* === Filter badge === */
+#shopee-assistant-panel .sa-filter-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--shopee-deep);
+  padding: 6px 12px;
+  background: rgba(238, 77, 45, 0.08);
+  border: 1px solid rgba(238, 77, 45, 0.2);
+  border-radius: 2px;
+  margin: 4px 0 12px;
+  font-weight: 600;
+}
+
+/* === Tip === */
+#shopee-assistant-panel .sa-tip {
+  font-family: 'Newsreader', 'Noto Serif SC', '思源宋体', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  padding: 10px 12px;
+  background: rgba(238, 77, 45, 0.05);
+  border-left: 3px solid var(--shopee);
+  margin-bottom: 14px;
+  border-radius: 0 2px 2px 0;
+}
+
+#shopee-assistant-panel .sa-tip b {
+  color: var(--shopee-deep);
+  font-weight: 600;
+}
+
+/* === Footer === */
+#shopee-assistant-panel .sa-footer {
+  padding: 12px 24px;
+  background: var(--paper-2);
+  border-top: 1px solid var(--rule-strong);
+  font-family: 'JetBrains Mono', 'Noto Sans SC', '思源黑体', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#shopee-assistant-panel .sa-footer .sa-pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--shopee);
+  margin-right: 8px;
+  animation: sa-pulse 2s ease-in-out infinite;
+}
+
+@keyframes sa-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* === Reveal === */
+#shopee-assistant-panel .sa-body > * {
+  animation: sa-reveal 0.45s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+#shopee-assistant-panel .sa-body > *:nth-child(1) { animation-delay: 0s; }
+#shopee-assistant-panel .sa-body > *:nth-child(2) { animation-delay: 0.04s; }
+#shopee-assistant-panel .sa-body > *:nth-child(3) { animation-delay: 0.08s; }
+#shopee-assistant-panel .sa-body > *:nth-child(4) { animation-delay: 0.12s; }
+#shopee-assistant-panel .sa-body > *:nth-child(5) { animation-delay: 0.16s; }
+#shopee-assistant-panel .sa-body > *:nth-child(6) { animation-delay: 0.2s; }
+
+@keyframes sa-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}

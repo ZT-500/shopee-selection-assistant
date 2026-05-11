@@ -1,0 +1,19 @@
+# 运行时抓取的数据（量大且每次都不一样，不入库）
+data/extension_collected/*.json
+data/raw/*.json
+data/output/*.xlsx
+data/output/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 环境变量（含 API key）
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp

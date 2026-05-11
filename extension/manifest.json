@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Shopee 选品助手 (Demo)",
+  "version": "0.1.0",
+  "description": "在 Shopee 商品页注入决策建议浮窗，并把浏览数据回传后端聚合。",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://shopee.tw/*",
+    "https://shopee.sg/*",
+    "https://shopee.com.my/*",
+    "http://localhost:5000/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://shopee.tw/*",
+        "https://shopee.sg/*",
+        "https://shopee.com.my/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["page_hook.js"],
+      "matches": [
+        "https://shopee.tw/*",
+        "https://shopee.sg/*",
+        "https://shopee.com.my/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "Shopee 选品助手",
+    "default_popup": "popup.html"
+  }
+}
